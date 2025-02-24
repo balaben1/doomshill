@@ -6,6 +6,7 @@
   <title>DOOM Token - The Last Crypto Standing</title>
   <link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
   <style>
+    /* Основні стилі */
     body {
       font-family: 'Nosifer', sans-serif;
       background: url('https://cdn.midjourney.com/c69099d5-087a-480a-9918-1f2c98684dd9/0_0.png') no-repeat center center fixed;
@@ -31,6 +32,7 @@
       align-items: center;
       justify-content: center;
       text-align: center;
+      position: relative;
     }
     h1 {
       font-size: 3em;
@@ -50,9 +52,6 @@
     }
     .btn:hover {
       background: linear-gradient(45deg, #cc0000, #ff3300);
-    }
-    .hidden {
-      display: none;
     }
     a {
       color: #ff6600;
@@ -99,7 +98,7 @@
     .calculator-container button:hover {
       background: linear-gradient(45deg, #cc0000, #ff3300);
     }
-    /* Закріплені посилання з лівого краю */
+    /* Закріплені посилання */
     .social-links {
       position: fixed;
       left: 10px;
@@ -145,29 +144,25 @@
     .home-link a:hover {
       color: #ffaa00;
     }
-    /* Вертикальний таймер з правого краю */
-    .countdown-timer {
-      position: fixed;
-      right: 10px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(0, 0, 0, 0.8);
-      padding: 10px;
-      border-radius: 10px;
-      box-shadow: 0px 0px 10px #ff6600;
-      text-align: center;
-      color: #fff;
-      font-size: 1em;
-      z-index: 10000;
+    /* Клас для схованих розділів */
+    .hidden {
+      display: none;
     }
-    .countdown-timer h3 {
-      margin: 0 0 10px;
-      font-size: 1.2em;
+    /* Анімації */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
-    .countdown-timer div {
-      margin: 5px 0;
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to { opacity: 0; }
     }
-    
+    .fade-in {
+      animation: fadeIn 0.5s forwards;
+    }
+    .fade-out {
+      animation: fadeOut 0.5s forwards;
+    }
     /* Медіа-запити для мобільних пристроїв */
     @media only screen and (max-width: 768px) {
       .container {
@@ -181,7 +176,6 @@
         padding: 10px 20px;
         font-size: 1em;
       }
-      /* Робимо фіксовані елементи більш адаптивними */
       .calculator-container {
         position: relative;
         width: 100%;
@@ -209,14 +203,6 @@
         position: relative;
         margin: 10px auto;
       }
-      .countdown-timer {
-        position: relative;
-        top: 0;
-        right: 0;
-        transform: none;
-        margin: 10px auto;
-        font-size: 0.9em;
-      }
     }
   </style>
   <script>
@@ -226,15 +212,36 @@
       let profit = tokens * futurePrice;
       document.getElementById('profit-result').innerHTML = `Your potential profit: $${profit.toFixed(2)}`;
     }
-  </script>
-  <script>
+    
     function showSection(sectionId) {
-      document.querySelectorAll('.content-section').forEach(section => {
-        section.classList.add('hidden');
-      });
+      const currentSection = document.querySelector('.content-section:not(.hidden)');
       const targetSection = document.getElementById(sectionId);
-      if (targetSection) {
+      
+      if (currentSection && currentSection !== targetSection) {
+        currentSection.classList.add('fade-out');
+        currentSection.addEventListener('animationend', function handleFadeOut() {
+          currentSection.classList.remove('fade-out');
+          currentSection.classList.add('hidden');
+          currentSection.removeEventListener('animationend', handleFadeOut);
+          
+          // Після fade-out показуємо новий розділ
+          if (targetSection) {
+            targetSection.classList.remove('hidden');
+            targetSection.classList.add('fade-in');
+            targetSection.addEventListener('animationend', function handleFadeIn() {
+              targetSection.classList.remove('fade-in');
+              targetSection.removeEventListener('animationend', handleFadeIn);
+            });
+          }
+        });
+      } else if (targetSection) {
+        // Якщо жоден розділ не показаний, просто fade-in нового
         targetSection.classList.remove('hidden');
+        targetSection.classList.add('fade-in');
+        targetSection.addEventListener('animationend', function handleFadeIn() {
+          targetSection.classList.remove('fade-in');
+          targetSection.removeEventListener('animationend', handleFadeIn);
+        });
       }
     }
   </script>
@@ -244,15 +251,7 @@
   <div class="social-links">
     <a href="https://twitter.com" target="_blank">Twitter</a>
     <a href="https://www.sologenic.com" target="_blank">Sologenic</a>
-  </div>
-
-  <!-- Вертикальний таймер -->
-  <div id="countdown" class="countdown-timer">
-    <h3>Until Launch</h3>
-    <div><span id="days">7</span> Days</div>
-    <div><span id="hours">00</span> Hours</div>
-    <div><span id="minutes">00</span> Minutes</div>
-    <div><span id="seconds">00</span> Seconds</div>
+    <a href="https://xpmarket.com" target="_blank">XPMarket</a>
   </div>
 
   <div class="calculator-container">
@@ -297,26 +296,55 @@
     </div>
   </div>
   <div id="roadmap" class="container content-section hidden">
-    <h1>DOOM Token Roadmap 🛣️</h1>
-    <p>Our journey towards building the ultimate crypto experience.</p>
+    <h1>📅 DOOM Token Roadmap</h1>
     <div class="roadmap">
       <div>
-        <h3>✅ Q1 2024 - Token Launch</h3>
-        <p>DOOM Token is officially launched with initial liquidity on Sologenic.</p>
+        <h3>🚀 Q1 2024 – Launch & Exchange Listings</h3>
+        <ul>
+          <li>✅ Official DOOM Token launch</li>
+          <li>✅ Website and social media creation (Twitter, Telegram, Discord)</li>
+          <li>✅ Listing on initial DEX and CEX exchanges</li>
+          <li>🔹 Marketing campaign launch</li>
+          <li>🔹 Initial partnerships with crypto influencers</li>
+        </ul>
       </div>
       <div>
-        <h3>🚀 Q2 2024 - Exchange Listings</h3>
-        <p>Listing on centralized and decentralized exchanges to boost adoption.</p>
+        <h3>💣 Q2 2024 – Ecosystem Expansion</h3>
+        <ul>
+          <li>🔹 Listing on additional CEX/DEX exchanges</li>
+          <li>🔹 Implementation of a referral program</li>
+          <li>🔹 Release of Whitepaper 2.0 with detailed future plans</li>
+        </ul>
       </div>
       <div>
-        <h3>🔥 Q3 2024 - NFT & Staking</h3>
-        <p>Integration of DOOM NFTs and staking for passive rewards.</p>
+        <h3>🔥 Q3 2024 – DeFi & DAO</h3>
+        <ul>
+          <li>🏦 Launch of staking for passive income</li>
+          <li>🏛 Introduction of DOOM DAO for community governance</li>
+          <li>🚀 DOOM integration into DeFi services</li>
+          <li>💀 Additional token burns to enhance scarcity</li>
+        </ul>
       </div>
       <div>
-        <h3>🌎 Q4 2024 - Partnerships & Expansion</h3>
-        <p>Expanding into new markets, collaborations with key crypto projects.</p>
+        <h3>🌎 Q4 2024 – Scaling & Global Adoption</h3>
+        <ul>
+          <li>🔥 Listing on Top 10 CEX exchanges</li>
+          <li>🤝 Major partnerships in the crypto industry</li>
+          <li>📲 Integration with wallets and payment systems</li>
+          <li>🚀 Expansion of token utility</li>
+        </ul>
+      </div>
+      <div>
+        <h3>🚀 2025 – The DOOM Expansion</h3>
+        <ul>
+          <li>💀 Creation of the DOOM Launchpad to support new projects</li>
+          <li>🔥 Further supply reduction through additional burns</li>
+          <li>🌎 Global expansion through large-scale collaborations</li>
+        </ul>
       </div>
     </div>
+    <p>📌 References to liquidity and NFTs have been removed.</p>
+    <p>🚀 Check if everything is as you need! 🔥</p>
     <a href="#" class="btn" onclick="showSection('main-content')">Back to Home</a>
   </div>
   <div id="whitepaper" class="container content-section hidden">
@@ -355,38 +383,5 @@
     </ul>
     <a href="#" class="btn" onclick="showSection('main-content')">Back to Home</a>
   </div>
-
-  <!-- Скрипт для зворотного таймера -->
-  <script>
-    // Встановлюємо дату завершення відліку – 7 днів від поточного моменту
-    const targetDate = new Date();
-    targetDate.setDate(targetDate.getDate() + 7);
-
-    function updateCountdown() {
-      const now = new Date();
-      const diff = targetDate - now;
-      if (diff <= 0) {
-        // Якщо час вичерпано, встановлюємо 0 для всіх полів та зупиняємо оновлення
-        document.getElementById('days').innerText = '0';
-        document.getElementById('hours').innerText = '00';
-        document.getElementById('minutes').innerText = '00';
-        document.getElementById('seconds').innerText = '00';
-        clearInterval(timerInterval);
-        return;
-      }
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-      document.getElementById('days').innerText = days;
-      document.getElementById('hours').innerText = hours.toString().padStart(2, '0');
-      document.getElementById('minutes').innerText = minutes.toString().padStart(2, '0');
-      document.getElementById('seconds').innerText = seconds.toString().padStart(2, '0');
-    }
-
-    updateCountdown(); // Початкове оновлення
-    const timerInterval = setInterval(updateCountdown, 1000);
-  </script>
 </body>
 </html>
