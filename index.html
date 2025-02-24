@@ -167,6 +167,57 @@
     .countdown-timer div {
       margin: 5px 0;
     }
+    
+    /* Медіа-запити для мобільних пристроїв */
+    @media only screen and (max-width: 768px) {
+      .container {
+        padding: 20px;
+        width: 90%;
+      }
+      h1 {
+        font-size: 2em;
+      }
+      .btn {
+        padding: 10px 20px;
+        font-size: 1em;
+      }
+      /* Робимо фіксовані елементи більш адаптивними */
+      .calculator-container {
+        position: relative;
+        width: 100%;
+        height: auto;
+        flex-direction: column;
+        padding: 10px;
+      }
+      .calculator-container input,
+      .calculator-container button {
+        width: 80%;
+        margin: 5px auto;
+        height: 35px;
+      }
+      .social-links {
+        position: relative;
+        top: 0;
+        left: 0;
+        transform: none;
+        flex-direction: row;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+      .home-link {
+        position: relative;
+        margin: 10px auto;
+      }
+      .countdown-timer {
+        position: relative;
+        top: 0;
+        right: 0;
+        transform: none;
+        margin: 10px auto;
+        font-size: 0.9em;
+      }
+    }
   </style>
   <script>
     function calculateProfit() {
@@ -189,13 +240,13 @@
   </script>
 </head>
 <body>
-  <!-- Закріплені посилання з лівого краю -->
+  <!-- Закріплені посилання -->
   <div class="social-links">
     <a href="https://twitter.com" target="_blank">Twitter</a>
     <a href="https://www.sologenic.com" target="_blank">Sologenic</a>
   </div>
 
-  <!-- Вертикальний таймер з правого краю з заголовком "Until Launch" -->
+  <!-- Вертикальний таймер -->
   <div id="countdown" class="countdown-timer">
     <h3>Until Launch</h3>
     <div><span id="days">7</span> Days</div>
