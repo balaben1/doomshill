@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DOOM Token - The Last Crypto Standing</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Nosifer', sans-serif;
+      background: url('https://cdn.midjourney.com/c69099d5-087a-480a-9918-1f2c98684dd9/0_0.png') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .container {
+      width: 100%;
+      max-width: 800px;
+      padding: 50px;
+      background: rgba(0, 0, 0, 0.2);
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    h1 {
+      font-size: 3em;
+      color: #ff0000;
+      text-shadow: 3px 3px 10px #ff6600;
+    }
+    .btn {
+      display: inline-block;
+      padding: 15px 30px;
+      background: linear-gradient(45deg, #ff0000, #ff6600);
+      color: #fff;
+      font-size: 1.2em;
+      text-decoration: none;
+      border-radius: 5px;
+      margin-top: 10px;
+      box-shadow: 0px 0px 10px #ff6600;
+    }
+    .btn:hover {
+      background: linear-gradient(45deg, #cc0000, #ff3300);
+    }
+    .hidden {
+      display: none;
+    }
+    a {
+      color: #ff6600;
+      text-decoration: none;
+      font-weight: bold;
+      text-shadow: 2px 2px 5px #ffaa00;
+    }
+    a:hover {
+      color: #ffaa00;
+    }
+    .calculator-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 50px;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0px 0px 10px #ff6600;
+      text-align: center;
+      z-index: 1000;
+    }
+    .calculator-container input {
+      padding: 5px;
+      margin: 0 10px;
+      border-radius: 5px;
+      border: none;
+      text-align: center;
+      width: 120px;
+      height: 30px;
+    }
+    .calculator-container button {
+      padding: 5px 10px;
+      background: linear-gradient(45deg, #ff0000, #ff6600);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      height: 30px;
+    }
+    .calculator-container button:hover {
+      background: linear-gradient(45deg, #cc0000, #ff3300);
+    }
+    /* Закріплені посилання з лівого краю */
+    .social-links {
+      position: fixed;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px #ff6600;
+      z-index: 10000;
+    }
+    .social-links a {
+      color: #ff6600;
+      font-size: 1.2em;
+      text-decoration: none;
+      text-align: center;
+      transition: color 0.3s ease-in-out;
+    }
+    .social-links a:hover {
+      color: #ffaa00;
+    }
+    .home-link {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 10px 15px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px #ff6600;
+      text-align: center;
+      z-index: 10000;
+    }
+    .home-link a {
+      color: #ff6600;
+      font-size: 1.2em;
+      text-decoration: none;
+      font-weight: bold;
+      text-shadow: 2px 2px 5px #ffaa00;
+    }
+    .home-link a:hover {
+      color: #ffaa00;
+    }
+    /* Вертикальний таймер з правого краю */
+    .countdown-timer {
+      position: fixed;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.8);
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px #ff6600;
+      text-align: center;
+      color: #fff;
+      font-size: 1em;
+      z-index: 10000;
+    }
+    .countdown-timer h3 {
+      margin: 0 0 10px;
+      font-size: 1.2em;
+    }
+    .countdown-timer div {
+      margin: 5px 0;
+    }
+  </style>
+  <script>
+    function calculateProfit() {
+      let tokens = document.getElementById('tokens').value;
+      let futurePrice = 0.05; // Set an estimated future price
+      let profit = tokens * futurePrice;
+      document.getElementById('profit-result').innerHTML = `Your potential profit: $${profit.toFixed(2)}`;
+    }
+  </script>
+  <script>
+    function showSection(sectionId) {
+      document.querySelectorAll('.content-section').forEach(section => {
+        section.classList.add('hidden');
+      });
+      const targetSection = document.getElementById(sectionId);
+      if (targetSection) {
+        targetSection.classList.remove('hidden');
+      }
+    }
+  </script>
+</head>
+<body>
+  <!-- Закріплені посилання з лівого краю -->
+  <div class="social-links">
+    <a href="https://twitter.com" target="_blank">Twitter</a>
+    <a href="https://www.sologenic.com" target="_blank">Sologenic</a>
+  </div>
+
+  <!-- Вертикальний таймер з правого краю з заголовком "Until Launch" -->
+  <div id="countdown" class="countdown-timer">
+    <h3>Until Launch</h3>
+    <div><span id="days">7</span> Days</div>
+    <div><span id="hours">00</span> Hours</div>
+    <div><span id="minutes">00</span> Minutes</div>
+    <div><span id="seconds">00</span> Seconds</div>
+  </div>
+
+  <div class="calculator-container">
+    <h2>Profit Calculator</h2>
+    <input type="number" id="tokens" placeholder="Enter amount of DOOM">
+    <button onclick="calculateProfit()">Calculate</button>
+    <p id="profit-result"></p>
+  </div>
+  <div id="main-content" class="container">
+    <h1>DOOM TOKEN</h1>
+    <p>The last cryptocurrency you'll ever need before the world ends. 💀</p>
+    <div>
+      <a href="https://www.sologenic.com/doomtoken" target="_blank" class="btn">BUY NOW</a>
+      <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" class="btn">SELL NEVER</a>
+    </div>
+    <h2><a href="#" onclick="showSection('tokenomics')">Tokenomics</a></h2>
+    <h2><a href="#" onclick="showSection('roadmap')">Roadmap</a></h2>
+    <h2><a href="#" onclick="showSection('whitepaper')">Whitepaper</a></h2>
+  </div>
+  <div id="tokenomics" class="container content-section hidden">
+    <h1>DOOM Tokenomics 💀🔥</h1>
+    <p>Understanding the economics behind $DOOM Token.</p>
+    <h2>🔹 Total Supply</h2>
+    <p>📌 <strong>Max Supply:</strong> 1,000,000,000 $DOOM</p>
+    <p>📌 <strong>Deflationary Mechanism:</strong> A portion of tokens is burned, reducing the total supply over time.</p>
+    <h2>🔥 Token Distribution</h2>
+    <div>
+      <h3>🔥 50% Burned</h3>
+      <p>500 million tokens have been burned to create scarcity.</p>
+    </div>
+    <div>
+      <h3>💰 30% Liquidity</h3>
+      <p>Added to liquidity pools (Sologenic) and locked.</p>
+    </div>
+    <div>
+      <h3>🎁 10% Holder Rewards</h3>
+      <p>Passive income for holders through auto-distribution.</p>
+    </div>
+    <div>
+      <h3>📈 10% Marketing & CEX Listings</h3>
+      <p>Used for partnerships, exchange listings, and promotion.</p>
+    </div>
+  </div>
+  <div id="roadmap" class="container content-section hidden">
+    <h1>DOOM Token Roadmap 🛣️</h1>
+    <p>Our journey towards building the ultimate crypto experience.</p>
+    <div class="roadmap">
+      <div>
+        <h3>✅ Q1 2024 - Token Launch</h3>
+        <p>DOOM Token is officially launched with initial liquidity on Sologenic.</p>
+      </div>
+      <div>
+        <h3>🚀 Q2 2024 - Exchange Listings</h3>
+        <p>Listing on centralized and decentralized exchanges to boost adoption.</p>
+      </div>
+      <div>
+        <h3>🔥 Q3 2024 - NFT & Staking</h3>
+        <p>Integration of DOOM NFTs and staking for passive rewards.</p>
+      </div>
+      <div>
+        <h3>🌎 Q4 2024 - Partnerships & Expansion</h3>
+        <p>Expanding into new markets, collaborations with key crypto projects.</p>
+      </div>
+    </div>
+    <a href="#" class="btn" onclick="showSection('main-content')">Back to Home</a>
+  </div>
+  <div id="whitepaper" class="container content-section hidden">
+    <h1>DOOM Token Whitepaper 📄</h1>
+    <p>DOOM Token is a decentralized digital asset designed to create a deflationary economic model. Its unique burning mechanisms and reward distribution contribute to increasing its value and encourage long-term holding.</p>
+    <h2>Technology</h2>
+    <p>DOOM Token operates on a secure blockchain with smart contract support. Key technological features:</p>
+    <ul>
+      <li>🔥 Burning Mechanism: Each transaction reduces the total supply, increasing scarcity.</li>
+      <li>🔒 Audited Smart Contract: Ensures transparency and automated governance.</li>
+      <li>⚡ Fast and Low-Cost Transactions: Optimized for DeFi networks.</li>
+    </ul>
+    <h2>Tokenomics</h2>
+    <p>Maximum Supply: 1,000,000,000 $DOOM</p>
+    <p>Deflationary Mechanism: 50% of tokens have already been burned.</p>
+    <h3>Distribution:</h3>
+    <ul>
+      <li>🔥 50% – Burned Tokens</li>
+      <li>💰 30% – Added to Liquidity</li>
+      <li>🎁 10% – Holder Rewards</li>
+      <li>📈 10% – Marketing & CEX Listings</li>
+    </ul>
+    <h2>Utility</h2>
+    <p>DOOM Token plays a key role in its ecosystem:</p>
+    <ul>
+      <li>📌 Reward System: Holders receive automatic bonuses.</li>
+      <li>🏦 Staking: Earn additional tokens.</li>
+      <li>🏛 Governance: Participate in project development decisions.</li>
+    </ul>
+    <h2>Future Plans</h2>
+    <ul>
+      <li>🚀 Listing on new exchanges (CEX & DEX)</li>
+      <li>🎨 DOOM NFT Integration</li>
+      <li>📊 Additional DeFi Opportunities</li>
+      <li>🌍 Global Partnerships for Mass Adoption</li>
+    </ul>
+    <a href="#" class="btn" onclick="showSection('main-content')">Back to Home</a>
+  </div>
+
+  <!-- Скрипт для зворотного таймера -->
+  <script>
+    // Встановлюємо дату завершення відліку – 7 днів від поточного моменту
+    const targetDate = new Date();
+    targetDate.setDate(targetDate.getDate() + 7);
+
+    function updateCountdown() {
+      const now = new Date();
+      const diff = targetDate - now;
+      if (diff <= 0) {
+        // Якщо час вичерпано, встановлюємо 0 для всіх полів та зупиняємо оновлення
+        document.getElementById('days').innerText = '0';
+        document.getElementById('hours').innerText = '00';
+        document.getElementById('minutes').innerText = '00';
+        document.getElementById('seconds').innerText = '00';
+        clearInterval(timerInterval);
+        return;
+      }
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      document.getElementById('days').innerText = days;
+      document.getElementById('hours').innerText = hours.toString().padStart(2, '0');
+      document.getElementById('minutes').innerText = minutes.toString().padStart(2, '0');
+      document.getElementById('seconds').innerText = seconds.toString().padStart(2, '0');
+    }
+
+    updateCountdown(); // Початкове оновлення
+    const timerInterval = setInterval(updateCountdown, 1000);
+  </script>
+</body>
+</html>
