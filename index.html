@@ -54,7 +54,7 @@
       background: linear-gradient(45deg, #cc0000, #ff3300);
     }
     a {
-      color: #ff6600;
+      color: #ff0000;
       text-decoration: none;
       font-weight: bold;
       text-shadow: 2px 2px 5px #ffaa00;
@@ -77,14 +77,27 @@
       text-align: center;
       z-index: 1000;
     }
+    /* Розширене поле вводу */
     .calculator-container input {
-      padding: 5px;
+      padding: 10px;
       margin: 0 10px;
-      border-radius: 5px;
       border: none;
+      border-radius: 10px;
+      width: 250px; /* Збільшено ширину */
+      height: 40px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      font-size: 1.2em;
       text-align: center;
-      width: 120px;
-      height: 30px;
+      outline: none;
+      box-shadow: 0 0 10px rgba(255, 102, 0, 0.7);
+    }
+    .calculator-container input::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+      font-family: 'Nosifer', sans-serif;
+    }
+    .calculator-container input:focus {
+      background: rgba(255, 255, 255, 0.2);
     }
     .calculator-container button {
       padding: 5px 10px;
@@ -98,7 +111,11 @@
     .calculator-container button:hover {
       background: linear-gradient(45deg, #cc0000, #ff3300);
     }
-    /* Закріплені посилання */
+    /* Анімація для вікна посилань */
+    @keyframes slideInLeft {
+      from { transform: translateX(-100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
     .social-links {
       position: fixed;
       left: 10px;
@@ -112,6 +129,7 @@
       border-radius: 10px;
       box-shadow: 0px 0px 10px #ff6600;
       z-index: 10000;
+      animation: slideInLeft 0.5s ease-out forwards;
     }
     .social-links a {
       color: #ff6600;
@@ -123,16 +141,22 @@
     .social-links a:hover {
       color: #ffaa00;
     }
+    /* Кнопка Home з анімацією */
+    @keyframes slideInDown {
+      from { transform: translateY(-100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
     .home-link {
       position: fixed;
       top: 10px;
-      left: 10px;
+      right: 10px;
       background: rgba(0, 0, 0, 0.8);
       padding: 10px 15px;
       border-radius: 10px;
       box-shadow: 0px 0px 10px #ff6600;
       text-align: center;
       z-index: 10000;
+      animation: slideInDown 0.5s ease-out forwards;
     }
     .home-link a {
       color: #ff6600;
@@ -148,7 +172,7 @@
     .hidden {
       display: none;
     }
-    /* Анімації */
+    /* Анімації для переходів між розділами */
     @keyframes fadeIn {
       from { opacity: 0; }
       to { opacity: 1; }
@@ -224,42 +248,51 @@
           currentSection.classList.add('hidden');
           currentSection.removeEventListener('animationend', handleFadeOut);
           
-          // Після fade-out показуємо новий розділ
+          // Після fade-out показуємо новий розділ і прокручуємо до нього
           if (targetSection) {
             targetSection.classList.remove('hidden');
             targetSection.classList.add('fade-in');
             targetSection.addEventListener('animationend', function handleFadeIn() {
               targetSection.classList.remove('fade-in');
               targetSection.removeEventListener('animationend', handleFadeIn);
+              targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
           }
         });
       } else if (targetSection) {
-        // Якщо жоден розділ не показаний, просто fade-in нового
         targetSection.classList.remove('hidden');
         targetSection.classList.add('fade-in');
         targetSection.addEventListener('animationend', function handleFadeIn() {
           targetSection.classList.remove('fade-in');
           targetSection.removeEventListener('animationend', handleFadeIn);
+          targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
       }
     }
   </script>
 </head>
 <body>
-  <!-- Закріплені посилання -->
+  <!-- Вікно посилань з анімацією -->
   <div class="social-links">
-    <a href="https://twitter.com" target="_blank">Twitter</a>
+    <a href="https://x.com/shilldoom" target="_blank">Twitter</a>
     <a href="https://www.sologenic.com" target="_blank">Sologenic</a>
     <a href="https://xpmarket.com" target="_blank">XPMarket</a>
   </div>
+  
+  <!-- Кнопка Home -->
+  <div class="home-link">
+    <a href="#" onclick="showSection('main-content')">Home</a>
+  </div>
 
+  <!-- Калькулятор -->
   <div class="calculator-container">
     <h2>Profit Calculator</h2>
     <input type="number" id="tokens" placeholder="Enter amount of DOOM">
     <button onclick="calculateProfit()">Calculate</button>
     <p id="profit-result"></p>
   </div>
+
+  <!-- Головний розділ (HOME) -->
   <div id="main-content" class="container">
     <h1>DOOM TOKEN</h1>
     <p>The last cryptocurrency you'll ever need before the world ends. 💀</p>
@@ -271,6 +304,8 @@
     <h2><a href="#" onclick="showSection('roadmap')">Roadmap</a></h2>
     <h2><a href="#" onclick="showSection('whitepaper')">Whitepaper</a></h2>
   </div>
+  
+  <!-- Розділ Tokenomics -->
   <div id="tokenomics" class="container content-section hidden">
     <h1>DOOM Tokenomics 💀🔥</h1>
     <p>Understanding the economics behind $DOOM Token.</p>
@@ -295,11 +330,13 @@
       <p>Used for partnerships, exchange listings, and promotion.</p>
     </div>
   </div>
+
+  <!-- Розділ Roadmap -->
   <div id="roadmap" class="container content-section hidden">
     <h1>📅 DOOM Token Roadmap</h1>
     <div class="roadmap">
       <div>
-        <h3>🚀 Q1 2024 – Launch & Exchange Listings</h3>
+        <h3>🚀 Q1 2025 – Launch & Exchange Listings</h3>
         <ul>
           <li>✅ Official DOOM Token launch</li>
           <li>✅ Website and social media creation (Twitter, Telegram, Discord)</li>
@@ -309,7 +346,7 @@
         </ul>
       </div>
       <div>
-        <h3>💣 Q2 2024 – Ecosystem Expansion</h3>
+        <h3>💣 Q2 2025 – Ecosystem Expansion</h3>
         <ul>
           <li>🔹 Listing on additional CEX/DEX exchanges</li>
           <li>🔹 Implementation of a referral program</li>
@@ -317,7 +354,7 @@
         </ul>
       </div>
       <div>
-        <h3>🔥 Q3 2024 – DeFi & DAO</h3>
+        <h3>🔥 Q3 2025 – DeFi & DAO</h3>
         <ul>
           <li>🏦 Launch of staking for passive income</li>
           <li>🏛 Introduction of DOOM DAO for community governance</li>
@@ -326,7 +363,7 @@
         </ul>
       </div>
       <div>
-        <h3>🌎 Q4 2024 – Scaling & Global Adoption</h3>
+        <h3>🌎 Q4 2025 – Scaling & Global Adoption</h3>
         <ul>
           <li>🔥 Listing on Top 10 CEX exchanges</li>
           <li>🤝 Major partnerships in the crypto industry</li>
@@ -335,7 +372,7 @@
         </ul>
       </div>
       <div>
-        <h3>🚀 2025 – The DOOM Expansion</h3>
+        <h3>🚀 2026 – The DOOM Expansion</h3>
         <ul>
           <li>💀 Creation of the DOOM Launchpad to support new projects</li>
           <li>🔥 Further supply reduction through additional burns</li>
@@ -347,6 +384,8 @@
     <p>🚀 Check if everything is as you need! 🔥</p>
     <a href="#" class="btn" onclick="showSection('main-content')">Back to Home</a>
   </div>
+
+  <!-- Розділ Whitepaper -->
   <div id="whitepaper" class="container content-section hidden">
     <h1>DOOM Token Whitepaper 📄</h1>
     <p>DOOM Token is a decentralized digital asset designed to create a deflationary economic model. Its unique burning mechanisms and reward distribution contribute to increasing its value and encourage long-term holding.</p>
